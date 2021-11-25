@@ -22,6 +22,7 @@ from botocore.client import Config
 #### Dash Layer #######################################################################################
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.CYBORG])#[dbc.themes.BOOTSTRAP, dbc.themes.DARKLY])
+server = app.server
 
 app.layout = html.Div([     
 
