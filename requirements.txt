@@ -149,8 +149,8 @@ scipy
 SecretStorage==3.3.1
 Send2Trash
 setuptools-scm==6.3.2
-Shapely==1.8.0
-sip==4.19.13
+Shapely
+sip
 six
 smmap==4.0.0
 snappy==3.0.1
