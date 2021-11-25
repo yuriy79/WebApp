@@ -66,7 +66,7 @@ jmespath
 joblib
 json5
 jsonschema
-jupyter-clien
+jupyter-client
 jupyter-core
 jupyter-dash
 jupyter-dashboards==0.7.0
