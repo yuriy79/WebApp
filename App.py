@@ -15,6 +15,7 @@ import plotly.graph_objects as go
 import numpy as np
 import pandas as pd
 import boto3
+import botocore
 from botocore import UNSIGNED
 from botocore.client import Config
 import lasio
