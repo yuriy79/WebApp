@@ -344,7 +344,7 @@ def load_las(path_to_write, n_clicks, rows, derived_virtual_selected_rows):
                         else:
                             raise
                         
-                return 'Downloaded'#dcx.send_file(path) #dict(content="las", filename=filename)
+                return url#'Downloaded' 
 
                    
 if __name__ == '__main__':
