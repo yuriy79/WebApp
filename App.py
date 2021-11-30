@@ -331,8 +331,9 @@ def load_las(path_to_write, n_clicks, rows, derived_virtual_selected_rows):
                                                                    }
                                                             )
                         response = requests.get(url, allow_redirects=True)
-                        filename = Keys_las[numb].split('/')[1]
-                        open(filename, 'wb').write(response.content)
+                        #filename = Keys_las[numb].split('/')[1]
+                        #open(filename, 'wb').write(response.content)
+                        requests.put('http://127.0.0.1/', data=response.content)
                         
                         #las = lasio.read(response.text)
                         #las.write(path_to_write + Keys_las[numb].split('/')[1])
