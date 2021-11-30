@@ -126,7 +126,8 @@ fig_logs = tools.make_subplots(rows=1, cols=1).\
 
 #### Dash Layer #######################################################################################
 
-app = dash.Dash(__name__, external_stylesheets=[dbc.themes.CYBORG])#[dbc.themes.BOOTSTRAP, dbc.themes.DARKLY])
+app = dash.Dash(__name__, external_stylesheets=[dbc.themes.CYBORG])
+server = app.server
 
 app.layout = html.Div([ 
                         dbc.Row([
