@@ -330,9 +330,12 @@ def load_las(path_to_write, n_clicks, rows, derived_virtual_selected_rows):
                                                                     'Key': Keys_las[numb]
                                                                    }
                                                             )
-                        response = requests.get(url)
-                        las = lasio.read(response.text)
-                        las.write(path_to_write + Keys_las[numb].split('/')[1])
+                        response = requests.get(url, allow_redirects=True)
+                        filename = Keys_las[numb].split('/')[1]
+                        open(filename, 'wb').write(response.content)
+                        
+                        #las = lasio.read(response.text)
+                        #las.write(path_to_write + Keys_las[numb].split('/')[1])
                         
                     except botocore.exceptions.ClientError as e:
                         if e.response['Error']['Code'] == "404":
