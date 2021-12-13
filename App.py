@@ -139,7 +139,6 @@ fig_logs = tools.make_subplots(rows=1, cols=1).\
                                   update_xaxes(side='top', ticklabelposition="inside",
                                                title_standoff = 1)
 
-
 Tab_map_view = [
                  dbc.Row(
                           [
@@ -209,6 +208,7 @@ Tab_log_view = [
 app = dash.Dash(__name__, external_stylesheets=[dash_theme])
 server = app.server
 
+
 app.layout = dbc.Container([
                         dbc.Row([
                                  html.H3(children="GDS-Viewer Dashboard", style = {'textAlign' : 'center'}),
@@ -246,7 +246,6 @@ def update_display_wells(options_chosen):
     return fig_map
 
 
-
 @app.callback(Output('curves-table', 'children'),
               Input('basic-interactions', 'selectedData'))
 def display_click_data(clickData):
@@ -267,7 +266,6 @@ def display_click_data(clickData):
         for x_3 in xs_3:
             if x_3 not in re.findall(r"'lon': \d\d.\d", " ".join(xs)):
                 xs.append(x_3)
-    
         x = []
         y = []
         for x_s, y_s in zip(xs, ys):
@@ -444,13 +442,10 @@ def display_las(rows, derived_virtual_selected_rows):
                     name_well.append(name)
                     link.append(url)
     
-        
-                        
         return  dbc.ListGroup([dbc.ListGroupItem(name, href=url) if url!='none'
                                else dbc.ListGroupItem(name)
                                for name,url in zip(name_well, link)])
 
-
-                
+               
 if __name__ == '__main__':
     app.run_server()
