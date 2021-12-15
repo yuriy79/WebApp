@@ -165,7 +165,7 @@ Tab_map_view = [
                                                                    inputStyle={"margin-right": "10px"}), 
                                                     ]),
                                                                              
-                                     ], width=4, sm={'size': 2,  "offset": 0, 'order': 2})
+                                     ], width=4, sm={'size': 3,  "offset": 0, 'order': 2})
                               
                           ]), 
                
