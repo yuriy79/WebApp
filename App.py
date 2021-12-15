@@ -142,7 +142,7 @@ fig_logs = tools.make_subplots(rows=1, cols=1).\
 Tab_map_view = [
                  dbc.Row(
                           [
-                            dbc.Col(dcc.Graph(id='basic-interactions', figure=fig_map), width=4, md={'size': 9,  "offset": 1, 'order': 'first'}),
+                            dbc.Col(dcc.Graph(id='basic-interactions', figure=fig_map), width=4, md={'size': 8,  "offset": 1, 'order': 'first'}),
                             dbc.Col(
                                      [
                                          html.Br(), html.Br(),
@@ -163,14 +163,11 @@ Tab_map_view = [
                                                                   'cursor': 'pointer'
                                                                              },
                                                                    inputStyle={"margin-right": "10px"}), 
-                                                    ]
-                                                  ),
+                                                    ]),
                                                                              
-                                     ]
-                                   )
+                                     ], width=4, sm={'size': 2,  "offset": 0, 'order': 2})
                               
-                          ]
-                        ), 
+                          ]), 
                
                 dbc.Row([ dbc.Col(
                                    html.H5(children="Selected Wells", style = {'textAlign' : 'center'}), 
@@ -182,7 +179,6 @@ Tab_map_view = [
                  dbc.Row(
                          [    
                               dbc.Col([
-                                         html.Br(),
                                          html.Div(id='curves-table'),
                                          html.Br()
                                        ], 
