@@ -383,7 +383,7 @@ def display_logs(rows, derived_virtual_selected_rows):
                     fig.update_yaxes(autorange="reversed")
                 
                 
-        fig.update_layout(autosize=False,  height=2500, yaxis_range=[y.min(),y.max()])
+        fig.update_layout(autosize=False,  height=2500, yaxis_range=[y.min(),y.max()], hovermode="y unified")
         fig.layout.template = plotly_theme
     
         return  dcc.Graph(id='logs_', figure = fig)#, pd.unique(link)
