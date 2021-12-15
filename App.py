@@ -249,7 +249,6 @@ def update_display_wells(options_chosen):
     return fig_map
 
 
-
 @app.callback(Output('curves-table', 'children'),
               Input('basic-interactions', 'selectedData'))
 def display_click_data(clickData):
@@ -364,9 +363,9 @@ def display_logs(rows, derived_virtual_selected_rows):
                 name = str(lat)+'_'+str(lon)+'_'+wellname + '_'+ type_curve
                 fig.add_trace(go.Scatter(x=x, y=y, mode='lines', name=str(lat)+'_'+str(lon)+'_'+wellname + '_'+ type_curve,
                                          hovertemplate=
-                                                      str(lat)+'_'+str(lon)+'_'+wellname+"<br><br>" +
-                                                      "Depth: %{y:}<br>" +
-                                                      type_curve+": %{x:.0f}<br>" +
+                                                      str(lat)+'_'+str(lon)+'_'+wellname+"<br>" +
+                                                      "Depth: %{y:.1f}<br>" +
+                                                      type_curve+": %{x:.1f}<br>" +
                                                       "<extra></extra>"), 1, i+1)
             
                 if selected_rows.iloc[i:i+1]['Type'].values[0] in list_mnemonics_log500:
@@ -436,9 +435,7 @@ def display_las(rows, derived_virtual_selected_rows):
                 if name not in name_well:
                     name_well.append(name)
                     link.append(url)
-    
-        
-                        
+                   
         return  dbc.ListGroup([dbc.ListGroupItem(name, href=url,
                                                  className="list-group-item list-group-item-action list-group-item-secondary text-center") if url!='none'
                                else dbc.ListGroupItem(name, className="list-group-item list-group-item-action list-group-item-secondary text-center")
