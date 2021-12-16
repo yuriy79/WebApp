@@ -37,10 +37,10 @@ list_metadata = ['Age', 'Name', 'Type', 'lat', 'lon', 'Depth_start', 'Depth_fini
 geotime_list = [ 'Eocene', 'Late_Jurassic', 'Jurassic', 
                 'Late Permian_Early Triassic', 'Late Carboniferous_Early Permian',]
 # log curves with different axis scale
-list_mnemonics_log500 = ['GR']
+list_mnemonics_log500 = [' ']
 list_mnemonics_log2000 =  ['PERM']
 list_mnemonics_RES = ['RESD', 'RESS',]
-list_mnemonics = ['SO', 'DT', 'RHOB']
+list_mnemonics = ['SO', 'DT', 'RHOB', 'GR']
 
 def make_client_resource():
     """
