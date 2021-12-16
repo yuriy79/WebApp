@@ -441,7 +441,6 @@ def display_las(rows, derived_virtual_selected_rows):
                                else dbc.ListGroupItem(name, className="list-group-item list-group-item-action list-group-item-secondary text-center")
                                for name,url in zip(name_well, link)])
 
-
-                
+              
 if __name__ == '__main__':
     app.run_server()
