@@ -129,7 +129,8 @@ plotly_theme = 'seaborn'#'plotly_dark'#'ggplot2'#'plotly'#'simple_white' #
 dash_theme = dbc.themes.FLATLY#SUPERHERO #'CYBORG'
 
 px.set_mapbox_access_token(token)
-fig_map = px.scatter_mapbox(wells_map[for_maping_list], lat="lat", lon="lon",  zoom=4, mapbox_style='satellite', height= 800)
+fig_map = px.scatter_mapbox(wells_map[for_maping_list], title='Saudi Arabya Plate', 
+                            lat="lat", lon="lon",  zoom=4, mapbox_style='satellite', height= 800)
 fig_map.layout.template = plotly_theme 
 fig_map.update_layout(clickmode='event+select')
 fig_map.update_traces(marker_size=9, marker_color='red')
@@ -240,7 +241,8 @@ app.layout = dbc.Container([
 
 @app.callback(
     Output(component_id='basic-interactions', component_property='figure'),
-    [Input(component_id='geo-time', component_property='value')]
+    Input(component_id='geo-time', component_property='value'),
+    prevent_initial_call=True,
 )
 def update_display_wells(options_chosen):
     fig_map = px.scatter_mapbox(wells_map[wells_map['Age'].isin(options_chosen)], title='Saudi Arabya Plate', 
