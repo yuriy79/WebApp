@@ -147,7 +147,7 @@ Tab_map_view = [
                             dbc.Col(
                                      [
                                          html.Br(), html.Br(),
-                                         html.H5(children="Age", style = {'textAlign' : 'center'}),
+                                         html.H5(children="Geological Time", style = {'textAlign' : 'center'}),
                                          dbc.Card(
                                                    [
                                                      
