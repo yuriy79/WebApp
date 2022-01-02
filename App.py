@@ -129,7 +129,7 @@ plotly_theme = 'seaborn'#'plotly_dark'#'ggplot2'#'plotly'#'simple_white' #
 dash_theme = dbc.themes.FLATLY#SUPERHERO #'CYBORG'
 
 px.set_mapbox_access_token(token)
-fig_map = px.scatter_mapbox(wells_map[for_maping_list], title='Saudi Arabya Plate',
+fig_map = px.scatter_mapbox(wells_map[for_maping_list], title='Arabian Plate',
                             lat="lat", lon="lon",  zoom=4, mapbox_style='satellite', height= 800)
 fig_map.layout.template = plotly_theme 
 fig_map.update_layout(clickmode='event+select')
