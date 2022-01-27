@@ -214,6 +214,7 @@ Tab_log_view = [
 
 
 app = dash.Dash(__name__, external_stylesheets=[dash_theme])
+app.title = "GDS-Viewer"
 server = app.server
 
 app.layout = dbc.Container([
