@@ -246,7 +246,7 @@ app.layout = dbc.Container([
     prevent_initial_call=True,    
 )
 def update_display_wells(options_chosen):
-    fig_map = px.scatter_mapbox(wells_map[wells_map['Age'].isin(options_chosen)], title='Saudi Arabya Plate', 
+    fig_map = px.scatter_mapbox(wells_map[wells_map['Age'].isin(options_chosen)], title='Saudi Arabya Plateau', 
                                 lat="lat", lon="lon",  zoom=4, mapbox_style='satellite', height= 800)
     fig_map.layout.template = plotly_theme 
     fig_map.update_layout(clickmode='event+select')
