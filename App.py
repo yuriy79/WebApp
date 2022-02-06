@@ -126,7 +126,7 @@ Keys_las = [obj['Key'] for obj in client.list_objects_v2(Bucket=bucket_for_downl
 
 for_maping_list = ['lat', 'lon', 'Name']
 plotly_theme = 'seaborn'#'plotly_dark'#'ggplot2'#'plotly'#'simple_white' #
-dash_theme = dbc.themes.FLATLY#SUPERHERO #'CYBORG'
+dash_theme = dbc.themes.FLATLY #SUPERHERO #'CYBORG'
 
 px.set_mapbox_access_token(token)
 fig_map = px.scatter_mapbox(wells_map[for_maping_list], title='Arabian Plate',
@@ -246,7 +246,7 @@ app.layout = dbc.Container([
     prevent_initial_call=True,    
 )
 def update_display_wells(options_chosen):
-    fig_map = px.scatter_mapbox(wells_map[wells_map['Age'].isin(options_chosen)], title='Saudi Arabya Plateau', 
+    fig_map = px.scatter_mapbox(wells_map[wells_map['Age'].isin(options_chosen)], title='Arabian Plate', 
                                 lat="lat", lon="lon",  zoom=4, mapbox_style='satellite', height= 800)
     fig_map.layout.template = plotly_theme 
     fig_map.update_layout(clickmode='event+select')
