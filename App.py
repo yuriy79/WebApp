@@ -72,7 +72,7 @@ def find_number_lasfile_name(list_dir, key_word):
         s1 = list_dir[i]
         
         filename = s1.split('/')[-1]
-        mnemonics = filename.split('.LAS')[0]
+        mnemonics = filename.split('.LAS'.lower())[0]
         print('mnemon-',mnemonics, 'key_word-', key_word)
         if mnemonics == key_word:
             j = i
@@ -420,13 +420,13 @@ def display_las(rows, derived_virtual_selected_rows):
                 lat =  selected_rows.iloc[i:i+1]['lat'].values[0]
                 lon =  selected_rows.iloc[i:i+1]['lon'].values[0]
                 
-                start = selected_rows.iloc[i:i+1]['Depth_start'].values[0]
-                stop = selected_rows.iloc[i:i+1]['Depth_finish'].values[0]
+                start = float("%.0f" % selected_rows.iloc[i:i+1]['Depth_start'].values[0])
+                stop = float("%.0f" % selected_rows.iloc[i:i+1]['Depth_finish'].values[0])
                 
                 name = ('_').join((str(lat), str(lon), str(start), str(stop), wellname))#str(lat)+'_'+str(lon)+'_'+ wellname
                 
                 numb = find_number_lasfile_name(Keys_las, name)#('_').join((str(lat), str(lon), str(start), str(stop), wellname)))
-                              
+                                                              
                 if numb !=-1:
                     
                     url = client.generate_presigned_url(
