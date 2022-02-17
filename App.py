@@ -23,6 +23,7 @@ import requests
 
 ##### settings ###########################################################################################################################################
 
+name_app = "GDS-Viewer"
 token = "pk.eyJ1IjoieXVyaXlrYXByaWVsb3YiLCJhIjoiY2t2YjBiNXl2NDV4YzJucXcwcXdtZHVveiJ9.JSi7Xwold-yTZieIc264Ww"
 bucket_for_visualization="transformed-for-visualization-data-1"
 bucket_for_metadata="for-metadata"
@@ -126,10 +127,10 @@ Keys_las = [obj['Key'] for obj in client.list_objects_v2(Bucket=bucket_for_downl
 
 for_maping_list = ['lat', 'lon', 'Name']
 plotly_theme = 'seaborn'#'plotly_dark'#'ggplot2'#'plotly'#'simple_white' #
-dash_theme = dbc.themes.FLATLY #SUPERHERO #'CYBORG'
+dash_theme = dbc.themes.FLATLY#SUPERHERO #'CYBORG'
 
 px.set_mapbox_access_token(token)
-fig_map = px.scatter_mapbox(wells_map[for_maping_list], title='Arabian Plate',
+fig_map = px.scatter_mapbox(wells_map[for_maping_list], title='Saudi Arabya Plate',
                             lat="lat", lon="lon",  zoom=4, mapbox_style='satellite', height= 800)
 fig_map.layout.template = plotly_theme 
 fig_map.update_layout(clickmode='event+select')
@@ -147,7 +148,7 @@ Tab_map_view = [
                             dbc.Col(
                                      [
                                          html.Br(), html.Br(),
-                                         html.H5(children="Geological Time", style = {'textAlign' : 'center'}),
+                                         html.H5(children="Age", style = {'textAlign' : 'center'}),
                                          dbc.Card(
                                                    [
                                                      
@@ -214,7 +215,7 @@ Tab_log_view = [
 
 
 app = dash.Dash(__name__, external_stylesheets=[dash_theme])
-app.title = "GDS-Viewer"
+app.title = name_app
 server = app.server
 
 app.layout = dbc.Container([
@@ -246,7 +247,7 @@ app.layout = dbc.Container([
     prevent_initial_call=True,    
 )
 def update_display_wells(options_chosen):
-    fig_map = px.scatter_mapbox(wells_map[wells_map['Age'].isin(options_chosen)], title='Arabian Plate', 
+    fig_map = px.scatter_mapbox(wells_map[wells_map['Age'].isin(options_chosen)], title='Saudi Arabya Plate', 
                                 lat="lat", lon="lon",  zoom=4, mapbox_style='satellite', height= 800)
     fig_map.layout.template = plotly_theme 
     fig_map.update_layout(clickmode='event+select')
