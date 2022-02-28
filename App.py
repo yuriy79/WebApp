@@ -1,3 +1,4 @@
+#%%writefile 'App.py'
 import re
 import json
 import dash
@@ -35,13 +36,17 @@ list_metadata_files = ['List_of_curves.csv', 'List_of_data.csv']
 list_metadata = ['Age', 'Name', 'Type', 'lat', 'lon', 'Depth_start', 'Depth_finish', 
                  'Special_mark','Reference']
 
-geotime_list = [ 'Eocene', 'Late_Jurassic', 'Jurassic', 
-                'Late Permian_Early Triassic', 'Late Carboniferous_Early Permian',]
+geotime_list = [ 'Eocene', 
+                'Cretaceous',
+                'Jurassic', 
+                'Late Permian_Early Triassic', 
+                'Late Carboniferous_Early Permian',
+               ]
 # log curves with different axis scale
 list_mnemonics_log500 = ['']
 list_mnemonics_log2000 =  ['PERM']
 list_mnemonics_RES = ['RESD', 'RESS',]
-list_mnemonics = ['SO', 'DT', 'RHOB', 'GR']
+list_mnemonics = ['SO', 'DT', 'RHOB', 'GR', 'SONIC']
 
 #### model ##############################################################################################################################################################
 
@@ -72,8 +77,8 @@ def find_number_lasfile_name(list_dir, key_word):
         s1 = list_dir[i]
         
         filename = s1.split('/')[-1]
-        mnemonics = filename.split('.LAS'.lower())[0]
-        print('mnemon-',mnemonics, 'key_word-', key_word)
+        mnemonics = filename.split('.las')[0]
+        #print('mnemon-',mnemonics, 'key_word-', key_word)
         if mnemonics == key_word:
             j = i
     
@@ -114,6 +119,7 @@ client, recourse = make_client_resource()
 curves_data = read_resource_metadata_csv(client, bucket_for_metadata, list_metadata_files[0])
 table_data = read_resource_metadata_csv(client, bucket_for_metadata, list_metadata_files[1], 
                                             geotime_list, make_change=True, num_col=0)
+
 
 wells_map = curves_data[['Age','lat', 'lon', 'Name']] 
 wells_map = wells_map.set_index(['lat']).drop_duplicates()
@@ -353,26 +359,36 @@ def display_logs(rows, derived_virtual_selected_rows):
        
         for i in range(0, cols_):
                 type_curve = selected_rows.iloc[i:i+1]['Type'].values[0]
+                ## Reading data from gds with appropriation type of curve. 
+                ## Second variant - read at the beginning all data to the memmory
                 data_curves = read_curves_csv(client, bucket_for_visualization, 
                                               folders_name_for_visualization[0], type_curve)
                 columns_curves = data_curves.columns
                 wellname = selected_rows.iloc[i:i+1]['Name'].values[0]
                 lat =  selected_rows.iloc[i:i+1]['lat'].values[0]
-                lon =  selected_rows.iloc[i:i+1]['lon'].values[0]                
+                lon =  selected_rows.iloc[i:i+1]['lon'].values[0]
+                
+                
+                start_d = selected_rows.iloc[i:i+1]['Depth_start'].values[0]
+                stop_d = selected_rows.iloc[i:i+1]['Depth_finish'].values[0]
+                
                                         
-                y = data_curves[(data_curves['Well_name']==wellname) & 
+                df_curve = data_curves[(data_curves['Well_name']==wellname) & 
                                 (data_curves['lat']==lat) & 
-                               (data_curves['lon']==lon)][columns_curves[0]]
-                x = data_curves[(data_curves['Well_name']==wellname) & 
-                                (data_curves['lat']==lat) & 
-                               (data_curves['lon']==lon)][columns_curves[1]]
+                                (data_curves['lon']==lon) &
+                                (data_curves['DEPTH']>=start_d) &
+                                (data_curves['DEPTH']<=stop_d)]
+                df_curve = df_curve[~( (df_curve.duplicated(['DEPTH'])))]
+                y = df_curve[columns_curves[0]]
+                x = df_curve[columns_curves[1]]
+                                 
             
-                name = str(lat)+'_'+str(lon)+'_'+wellname + '_'+ type_curve
-                fig.add_trace(go.Scatter(x=x, y=y, mode='lines', name=str(lat)+'_'+str(lon)+'_'+wellname + '_'+ type_curve,
+                name = str(lat)+'_'+str(lon)+'_'+ wellname + '_'+ type_curve
+                fig.add_trace(go.Scatter(x=x, y=y, mode='lines', name=str(lat)+'_'+str(lon)+'_'+ wellname + '_'+ type_curve,
                                          hovertemplate=
                                                       str(lat)+'_'+str(lon)+'_'+wellname+"<br>" +
                                                       "Depth: %{y:.1f}<br>" +
-                                                      type_curve+": %{x:.1f}<br>" +
+                                                      type_curve+": %{x:.2f}<br>" +
                                                       "<extra></extra>"), 1, i+1)
             
                 if selected_rows.iloc[i:i+1]['Type'].values[0] in list_mnemonics_log500:
@@ -426,7 +442,7 @@ def display_las(rows, derived_virtual_selected_rows):
                 name = ('_').join((str(lat), str(lon), str(start), str(stop), wellname))#str(lat)+'_'+str(lon)+'_'+ wellname
                 
                 numb = find_number_lasfile_name(Keys_las, name)#('_').join((str(lat), str(lon), str(start), str(stop), wellname)))
-                                                              
+                
                 if numb !=-1:
                     
                     url = client.generate_presigned_url(
