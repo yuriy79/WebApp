@@ -45,8 +45,8 @@ geotime_list = [ 'Eocene',
 # log curves with different axis scale
 list_mnemonics_log500 = ['']
 list_mnemonics_log2000 =  ['PERM']
-list_mnemonics_RES = ['RESD', 'RESS',]
-list_mnemonics = ['SO', 'DT', 'RHOB', 'GR', 'SONIC']
+list_mnemonics_RES = ['RESD', 'RESS', 'RES']
+list_mnemonics = ['SO', 'DT', 'RHOB', 'GR', 'SONIC', 'GNT', 'SP']
 
 #### model ##############################################################################################################################################################
 
