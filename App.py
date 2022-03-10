@@ -48,6 +48,10 @@ list_mnemonics_log2000 =  ['PERM']
 list_mnemonics_RES = ['RESD', 'RESS', 'RES']
 list_mnemonics = ['SO', 'DT', 'RHOB', 'GR', 'SONIC', 'GNT', 'SP']
 
+# changing in columns name
+new_columns_name = ['Time', 'Lat', 'Lon', 'Depth_start, feet', 'Depth_finish, feet', 'Well_name']
+
+
 #### model ##############################################################################################################################################################
 
 
@@ -154,7 +158,7 @@ Tab_map_view = [
                             dbc.Col(
                                      [
                                          html.Br(), html.Br(),
-                                         html.H5(children="Age", style = {'textAlign' : 'center'}),
+                                         html.H5(children="Geological Time", style = {'textAlign' : 'center'}),
                                          dbc.Card(
                                                    [
                                                      
@@ -298,8 +302,14 @@ def display_click_data(clickData):
             y.append(y_number)
             
         
-        well_curves = curves_data[['Age', 'lat', 'lon', 'Depth_start', 'Depth_finish','Type', 'Name']]
+        well_curves = curves_data[['Age', 'lat', 'lon', 'Depth_start', 'Depth_finish','Type', 'Name', 'Special_mark']]
         df_ = well_curves[(well_curves['lon'].isin(x)) & (well_curves['lat'].isin(y))]
+        
+        ## Rename
+        df_ = df_.rename(columns={'Age': new_columns_name[0], 'lat':new_columns_name[1], 
+                                  'lon':new_columns_name[2], 'Depth_start': new_columns_name[3], 
+                                 'Depth_finish': new_columns_name[4], 'Name': new_columns_name[5]})
+        
         table = DataTable(id='curves-table_1',
                           columns = [{'name': col, 'id': col} for col in df_.columns],
                           data = df_.to_dict('records'),
@@ -364,13 +374,13 @@ def display_logs(rows, derived_virtual_selected_rows):
                 data_curves = read_curves_csv(client, bucket_for_visualization, 
                                               folders_name_for_visualization[0], type_curve)
                 columns_curves = data_curves.columns
-                wellname = selected_rows.iloc[i:i+1]['Name'].values[0]
-                lat =  selected_rows.iloc[i:i+1]['lat'].values[0]
-                lon =  selected_rows.iloc[i:i+1]['lon'].values[0]
+                wellname = selected_rows.iloc[i:i+1][new_columns_name[-1]].values[0]
+                lat =  selected_rows.iloc[i:i+1][new_columns_name[1]].values[0]
+                lon =  selected_rows.iloc[i:i+1][new_columns_name[2]].values[0]
                 
                 
-                start_d = selected_rows.iloc[i:i+1]['Depth_start'].values[0]
-                stop_d = selected_rows.iloc[i:i+1]['Depth_finish'].values[0]
+                start_d = selected_rows.iloc[i:i+1][new_columns_name[3]].values[0]
+                stop_d = selected_rows.iloc[i:i+1][new_columns_name[4]].values[0]
                 
                                         
                 df_curve = data_curves[(data_curves['Well_name']==wellname) & 
@@ -432,12 +442,12 @@ def display_las(rows, derived_virtual_selected_rows):
         link = []
         name_well = []
         for i in range(0, cols_):
-                wellname = selected_rows.iloc[i:i+1]['Name'].values[0]
-                lat =  selected_rows.iloc[i:i+1]['lat'].values[0]
-                lon =  selected_rows.iloc[i:i+1]['lon'].values[0]
+                wellname = selected_rows.iloc[i:i+1][new_columns_name[-1]].values[0]
+                lat =  selected_rows.iloc[i:i+1][new_columns_name[1]].values[0]
+                lon =  selected_rows.iloc[i:i+1][new_columns_name[2]].values[0]
                 
-                start = float("%.0f" % selected_rows.iloc[i:i+1]['Depth_start'].values[0])
-                stop = float("%.0f" % selected_rows.iloc[i:i+1]['Depth_finish'].values[0])
+                start = float("%.0f" % selected_rows.iloc[i:i+1][new_columns_name[3]].values[0])
+                stop = float("%.0f" % selected_rows.iloc[i:i+1][new_columns_name[4]].values[0])
                 
                 name = ('_').join((str(lat), str(lon), str(start), str(stop), wellname))#str(lat)+'_'+str(lon)+'_'+ wellname
                 
