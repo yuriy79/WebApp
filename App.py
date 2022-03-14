@@ -405,7 +405,9 @@ def display_logs(rows, derived_virtual_selected_rows):
                     fig.update_yaxes(autorange="reversed")
                     fig.update_xaxes(type="log",range=[np.log10(1), np.log10(500)],  row=1, col=i+1)
                 elif(selected_rows.iloc[i:i+1]['Type'].values[0]=='NPHI') or\
-                    (selected_rows.iloc[i:i+1]['Type'].values[0]=='PHI'):
+                    (selected_rows.iloc[i:i+1]['Type'].values[0]=='PHI') or\
+                    (selected_rows.iloc[i:i+1]['Type'].values[0]=='SONIC') or\
+                    (selected_rows.iloc[i:i+1]['Type'].values[0]=='DT'):
                     fig.update_yaxes(autorange="reversed")
                     fig.update_xaxes(autorange="reversed", range=[40, -15], row=1, col=i+1)
                 elif(selected_rows.iloc[i:i+1]['Type'].values[0] in list_mnemonics_log2000) or\
