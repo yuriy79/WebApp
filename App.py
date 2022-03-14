@@ -396,10 +396,10 @@ def display_logs(rows, derived_virtual_selected_rows):
                 name = str(lat)+'_'+str(lon)+'_'+ wellname + '_'+ type_curve
                 fig.add_trace(go.Scatter(x=x, y=y, mode='lines', name=str(lat)+'_'+str(lon)+'_'+ wellname + '_'+ type_curve,
                                          hovertemplate=
-                                                      str(lat)+'_'+str(lon)+'_'+wellname+"<br>" +
-                                                      "Depth: %{y:.1f}<br>" +
-                                                      type_curve+": %{x:.2f}<br>" +
-                                                      "<extra></extra>"), 1, i+1)
+                                                       type_curve+": %{x:.1f}<br><br>" +
+                                                       "Depth: %{y:.1f}<br><br>" +
+                                                       'Well: ' + str(lat)+'_'+str(lon)+'_'+wellname+"<br>" +
+                                                       "<extra></extra>"), 1, i+1)
             
                 if selected_rows.iloc[i:i+1]['Type'].values[0] in list_mnemonics_log500:
                     fig.update_yaxes(autorange="reversed")
