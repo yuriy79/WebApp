@@ -1,4 +1,3 @@
-#%%writefile 'App.py'
 import re
 import json
 import dash
@@ -366,7 +365,39 @@ def display_logs(rows, derived_virtual_selected_rows):
         fig = tools.make_subplots(rows=1, cols=cols_, subplot_titles=titles).\
                                   update_xaxes(side='top', ticklabelposition="inside",
                                                title_standoff = 10)
-       
+        
+        all_formations = []
+        for i in range(0, cols_):
+                type_curve = selected_rows.iloc[i:i+1]['Type'].values[0]
+                ## Reading data from gds with appropriation type of curve. 
+                ## Second variant - read at the beginning all data to the memmory
+                data_curves = read_curves_csv(client, bucket_for_visualization, 
+                                              folders_name_for_visualization[0], type_curve)
+                columns_curves = data_curves.columns
+                wellname = selected_rows.iloc[i:i+1][new_columns_name[-1]].values[0]
+                lat =  selected_rows.iloc[i:i+1][new_columns_name[1]].values[0]
+                lon =  selected_rows.iloc[i:i+1][new_columns_name[2]].values[0]
+                
+                
+                start_d = selected_rows.iloc[i:i+1][new_columns_name[3]].values[0]
+                stop_d = selected_rows.iloc[i:i+1][new_columns_name[4]].values[0]
+                
+                                        
+                df_curve = data_curves[(data_curves['Well_name']==wellname) & 
+                                (data_curves['lat']==lat) & 
+                                (data_curves['lon']==lon) &
+                                (data_curves['DEPTH']>=start_d) &
+                                (data_curves['DEPTH']<=stop_d)]
+                df_curve = df_curve[~( (df_curve.duplicated(['DEPTH'])))]
+                
+                formations = pd.unique(df_curve.Formation)
+                for f_ in  formations:
+                    all_formations.append(f_)
+        all_formations = pd.unique(all_formations)    
+        colors = {all_formation: ('rgba(' + ','.join((str(20+i*10),str(250/(i+1)), str(i*40), str(0.2)))+')') \
+                  for all_formation,i in zip(all_formations,range(0, len(all_formations)))}
+        
+        displayed_formation = []
         for i in range(0, cols_):
                 type_curve = selected_rows.iloc[i:i+1]['Type'].values[0]
                 ## Reading data from gds with appropriation type of curve. 
@@ -395,11 +426,37 @@ def display_logs(rows, derived_virtual_selected_rows):
             
                 name = str(lat)+'_'+str(lon)+'_'+ wellname + '_'+ type_curve
                 fig.add_trace(go.Scatter(x=x, y=y, mode='lines', name=str(lat)+'_'+str(lon)+'_'+ wellname + '_'+ type_curve,
-                                         hovertemplate=
-                                                       type_curve+": %{x:.1f}<br><br>" +
+                                         hovertemplate=type_curve+": %{x:.1f}<br><br>" +
                                                        "Depth: %{y:.1f}<br><br>" +
                                                        'Well: ' + str(lat)+'_'+str(lon)+'_'+wellname+"<br>" +
                                                        "<extra></extra>"), 1, i+1)
+                
+                ### Add Formations
+                columns = df_curve.columns
+                x_min = df_curve[columns[1]].dropna().values.min()
+                x_max = df_curve[columns[1]].dropna().values.max()
+                                                    
+                for f in formations:
+                    y_min = df_curve[df_curve['Formation'] ==f].values[0][0]
+                    y_max = df_curve[df_curve['Formation'] ==f].values[-1][0]
+                      
+                    if f in displayed_formation:
+                        fig.add_trace(go.Scatter(name = f, x = [x_min, x_min, x_max, x_max, x_min], 
+                                                 y = [y_min, y_max, y_max, y_min, y_min], mode='lines',fill="toself", 
+                                                 fillcolor = colors[f], showlegend=False
+                                                 ),
+                                      1, i+1
+                                      )
+                    else:
+                        fig.add_trace(go.Scatter(name = f, x = [x_min, x_min, x_max, x_max, x_min], 
+                                                 y = [y_min, y_max, y_max, y_min, y_min], mode='lines',fill="toself", 
+                                                 fillcolor = colors[f], showlegend=True
+                                                 ),
+                                      1, i+1
+                                      )
+                                                     
+                    displayed_formation.append(f) 
+                
             
                 if selected_rows.iloc[i:i+1]['Type'].values[0] in list_mnemonics_log500:
                     fig.update_yaxes(autorange="reversed")
