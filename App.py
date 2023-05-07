@@ -265,7 +265,7 @@ def update_display_wells(options_chosen):
     
     return fig_map
 
-
+"""
 @app.callback(Output('curves-table', 'children'),
               Input('basic-interactions', 'selectedData'))
 def display_click_data(clickData):
@@ -344,7 +344,7 @@ def display_click_data(clickData):
 
         return table
                        
-"""
+
 @app.callback(
               Output('logs', 'children'),
               #Output("downloaded", "children"),
